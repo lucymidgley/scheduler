@@ -4,7 +4,7 @@ import axios from 'axios';
 import "components/Application.scss";
 import DayList from "components/DayList.js";
 import Appointment from "components/Appointment";
-import getAppointmentsForDay, { getInterview } from "helpers/selectors";
+import getAppointmentsForDay, { getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -30,6 +30,8 @@ export default function Application(props) {
   console.log(state.interviewers)
 
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+  
   return (
     <main className="layout">
       <section className="sidebar">
@@ -55,7 +57,7 @@ export default function Application(props) {
 
       { appointments.map(
         //const interview = getInterview(state, appointment.interview);
-        appointment => ( <Appointment key={appointment.id} id={appointment.id} time={appointment.time} interview={getInterview(state, appointment.interview)} />))}
+        appointment => ( <Appointment key={appointment.id} id={appointment.id} time={appointment.time} interview={getInterview(state, appointment.interview)} interviewers={interviewers} />))}
   <Appointment key="last" time="6pm" />
       </section>
     </main>
