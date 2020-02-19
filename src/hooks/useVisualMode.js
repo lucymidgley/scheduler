@@ -10,7 +10,11 @@ export default function useVisualMode(initial) {
     }
   }
   function back() {
-    setMode(history.pop());
+    if(history.length > 1){
+      setMode(history.pop());
+    } else {
+      setMode(history[0])
+    }
   }
 
   return { mode, transition, back };
