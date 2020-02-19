@@ -21,10 +21,30 @@ return outputArr;
 export function getInterview(state, interview) {
   if(interview){
   const interviewerId = interview.interviewer;
-  console.log(interviewerId);
   const interviewer = state.interviewers[interviewerId];
   const interviewOut = {student: interview.student, interviewer: interviewer}
   
     return interviewOut;
 } else return null
+}
+
+
+export function getInterviewersForDay(state, day) {
+  const interviewersArr = function(state, day){
+    for( const stateDay of state.days){
+    if(stateDay.name === day){
+      return stateDay.interviewers;
+    }
+  }
+    return [];
+}
+
+  const intArr = interviewersArr(state, day);
+  const outputArr = [];
+  for(const intId in state.interviewers){
+    if(intArr.includes(Number(intId))){
+      outputArr.push(state.interviewers[intId])
+    }
+  }
+return outputArr;
 }
