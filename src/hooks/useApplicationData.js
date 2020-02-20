@@ -31,15 +31,15 @@ export default function useApplicationData() {
 const [state, dispatch] = useReducer(reducer, initial);
 
 function setDay (day) {
-  dispatch({ type: SET_DAY, value: {day: day} });
+  dispatch({ type: SET_DAY, value: {day} });
 } 
 
-function setApp (all) {
-  dispatch({ type: SET_APPLICATION_DATA, value: { days:all[0].data, appointments:all[1].data, interviewers:all[2].data} });
+function setApp (days, appointments, interviewers) {
+  dispatch({ type: SET_APPLICATION_DATA, value: { days, appointments, interviewers} });
 } 
 
 function setInterview (appointments) {
-  dispatch({ type: SET_INTERVIEW, value: { appointments:appointments} });
+  dispatch({ type: SET_INTERVIEW, value: { appointments} });
 } 
 
 
@@ -50,7 +50,10 @@ useEffect(() => {
     axios.get(`http://localhost:8001/api/interviewers`)
   
   ]).then((all) => {
-    setApp(all)
+    const days = all[0].data;
+    const appointments = all[1].data;
+    const interviewers = all[2].data;
+    setApp(days, appointments, interviewers)
   });
 }, []);
 
