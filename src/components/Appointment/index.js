@@ -15,6 +15,7 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const INCOMPLETE = "INCOMPLETE";
   const SAVING = "SAVING"
   const DELETING = "DELETING"
   const CONFIRM = "CONFIRM"
@@ -25,6 +26,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
     )
     function save(name, interviewer) {
+      if(name && interviewer){
       transition(SAVING)
       const interview = {
         student: name,
@@ -32,7 +34,7 @@ export default function Appointment(props) {
       };
       const id=props.id;
       props.bookInterview(id, interview).then(() => transition(SHOW)).catch(error => transition(SAVERROR, true))
-      
+    } else {transition(INCOMPLETE)} 
     }
     
     function deleteInt() {
@@ -82,6 +84,9 @@ export default function Appointment(props) {
    )}
     {mode === DELERROR && (
    <Error message="Could not delete appointment." onClose={() => back()} />
+   )}
+   {mode === INCOMPLETE && (
+   <Error message="Please fill in name and select an interviewer" onClose={() => back()} />
    )}
     {mode === CONFIRM && (
     <Confirm 
