@@ -10,7 +10,6 @@ export default function useVisualMode(initial) {
       //setHistory(history.concat(mode));
     }
   }
-  console.log(history)
   function back() {
     if(history.length > 1){
       setMode(history.pop());
