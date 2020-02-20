@@ -6,9 +6,11 @@ export default function useVisualMode(initial) {
   function transition(second, replace) {
     setMode(second)
     if(!replace){
-      setHistory(history.concat(mode));
+      setHistory(prev => ([...prev, mode]))
+      //setHistory(history.concat(mode));
     }
   }
+  console.log(history)
   function back() {
     if(history.length > 1){
       setMode(history.pop());
