@@ -42,7 +42,7 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    axios({
+   return axios({
       method: 'put',
       url: `http://localhost:8001/api/appointments/${id} `,
       data: {
