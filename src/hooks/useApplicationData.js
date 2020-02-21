@@ -81,8 +81,10 @@ function bookInterview(id, interview) {
     ...state.days[dayId],
     spots: spotsNew
   }
-  console.log(day)
- state.days[dayId] = day;
+  if(!state.appointments[id].interview){
+    state.days[dayId] = day;
+  }
+
 
 const days = [...state.days]
  return axios({
@@ -121,4 +123,3 @@ const days = [...state.days]
 }
  return { state, setDay, bookInterview, cancelInterview }
 }
-
