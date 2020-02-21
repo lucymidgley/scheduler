@@ -4,7 +4,14 @@ import axios from 'axios';
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-
+const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+function getDayId(state, id) {
+  for (let day of state.days) { 
+    if (day.appointments.includes(id)) {
+      return day.id - 1;
+    }
+  }    
+}
 function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
@@ -12,7 +19,45 @@ function reducer(state, action) {
     case SET_APPLICATION_DATA:
       return { ...state, ...action.value }
     case SET_INTERVIEW: {
-      return { ...state, ...action.value }
+      
+      const id = action.value.id;
+      const interview = action.value.interview
+      let appointment = {};
+      if(interview) {
+        appointment = {
+          ...state.appointments[id],
+          interview: { ...interview }
+        };
+      } else {
+        appointment = {
+          ...state.appointments[id],
+          interview: null
+        };
+      }
+      
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+          const dayId = getDayId(state, id);
+          const days = [ ...state.days ];
+          const appointmentsForDay = state.days[dayId].appointments;
+          let spotCount = 0;
+          for (let appointment of appointmentsForDay) {
+            let currentAppointment = appointments[appointment]
+            console.log("CURRENT APPOINTMENT", currentAppointment);
+            if (!currentAppointment.interview || Object.keys(currentAppointment.interview).length === 0) {
+              spotCount++;
+            }
+          }
+          console.log("SPOTS", spotCount);          
+          const day = {
+            ...state.days[dayId],
+            spots: spotCount
+          }
+            days[dayId] = day;
+      console.log( "reducer")
+      return { ...state, appointments:appointments, days:days}
     }
     default:
       throw new Error(
@@ -20,6 +65,8 @@ function reducer(state, action) {
       );
   }
 }
+
+
 const initial = {
   day: "Monday",
   days: [],
@@ -27,8 +74,7 @@ const initial = {
   interviewers: {}
 }
 export default function useApplicationData() {
-
-const [state, dispatch] = useReducer(reducer, initial);
+  const [state, dispatch] = useReducer(reducer, initial);
 
 function setDay (day) {
   dispatch({ type: SET_DAY, value: {day} });
@@ -38,88 +84,50 @@ function setApp (days, appointments, interviewers) {
   dispatch({ type: SET_APPLICATION_DATA, value: { days, appointments, interviewers} });
 } 
 
-function setInterview (appointments, days) {
-  dispatch({ type: SET_INTERVIEW, value: { appointments, days} });
+function setInterview (interview, id) {
+  dispatch({ type: SET_INTERVIEW, value: { interview, id} });
 } 
 
 
 useEffect(() => {
+    socket.onmessage = event => {
+      console.log(`Message Received: ${event.data}`);
+      const fromServer = JSON.parse(event.data)
+      if(fromServer.type==="SET_INTERVIEW") {
+        const id = fromServer.id;
+        const interview = fromServer.interview
+        setInterview(interview, id)
+      }
+    }
+     
   Promise.all([
-    axios.get(`http://localhost:8001/api/days`),
-    axios.get(`http://localhost:8001/api/appointments`),
-    axios.get(`http://localhost:8001/api/interviewers`)
+    axios.get(`/api/days`),
+    axios.get(`/api/appointments`),
+    axios.get(`/api/interviewers`)
   
   ]).then((all) => {
     const days = all[0].data;
-    console.log(days)
     const appointments = all[1].data;
     const interviewers = all[2].data;
     setApp(days, appointments, interviewers)
   });
 }, []);
-function getDayId(dayName, days) {
-for( const day of days) {
-  if(day.name === dayName){
-    return (day.id - 1)
-  }
-}
-}
+
 function bookInterview(id, interview) {
-  console.log(id, interview);
-  const appointment = {
-    ...state.appointments[id],
-    interview: { ...interview }
-  };
-  const appointments = {
-    ...state.appointments,
-    [id]: appointment
-  };
-  const dayId = getDayId(state.day, state.days);
-
-  const spotsNew = state.days[dayId]['spots'] - 1;
-  const day = {
-    ...state.days[dayId],
-    spots: spotsNew
-  }
-  if(!state.appointments[id].interview){
-    state.days[dayId] = day;
-  }
-
-
-const days = [...state.days]
  return axios({
     method: 'put',
-    url: `http://localhost:8001/api/appointments/${id} `,
+    url: `/api/appointments/${id} `,
     data: {
       interview
     }
-  }).then(() => setInterview(appointments, days))
+  }).then(() => setInterview(interview, id))
 }
 
-function cancelInterview(id) {
-  const appointment = {
-    ...state.appointments[id],
-    interview: null
-  };
-  const appointments = {
-    ...state.appointments,
-    [id]: appointment
-  };
-  const dayId = getDayId(state.day, state.days);
-
-  const spotsNew = state.days[dayId]['spots'] + 1;
-  const day = {
-    ...state.days[dayId],
-    spots: spotsNew
-  }
-  console.log(day)
- state.days[dayId] = day;
-
-const days = [...state.days]
+function cancelInterview(id, interview = null) {
   return axios({
     method: 'delete',
-    url: `http://localhost:8001/api/appointments/${id} `,
-  }).then(() => setInterview(appointments, days))
+    url: `/api/appointments/${id} `,
+  }).then(() => setInterview(interview, id))
 }
  return { state, setDay, bookInterview, cancelInterview }
 }

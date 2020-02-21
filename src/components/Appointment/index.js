@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./styles.scss";
 import Header from "components/Appointment/Header.js";
 import Empty from "components/Appointment/Empty.js";
@@ -43,18 +43,26 @@ export default function Appointment(props) {
       props.cancelInterview(id).then(()=> transition(EMPTY)).catch(error => transition(DELERROR, true))
     }
 
+    useEffect(() => {
+      if (props.interview && mode === EMPTY) {
+          transition(SHOW);
+      }
+      if (props.interview === null && mode === SHOW) {
+       transition(EMPTY);
+      }
+     }, [props.interview, transition, mode]);
 
 
   return (
   <article className="appointment">
     <Header time={props.time} />
   {mode === EMPTY && <Empty onAdd={()=> transition(CREATE)} />}
-  {mode === SHOW && (
+  {mode === SHOW && props.interview &&  (
     <Show
     student={props.interview.student}
     interviewer={props.interview.interviewer}
     onEdit={() => transition(EDIT)} 
-    onDelete={() => transition(CONFIRM, true)}
+    onDelete={() => transition(CONFIRM)}
     />
     )}
     {mode === CREATE && (
@@ -92,7 +100,7 @@ export default function Appointment(props) {
     <Confirm 
     message={"Delete the appointment?"}
     onCancel={() => transition(SHOW)}
-    onConfirm={()=> deleteInt()}
+    onConfirm={() => deleteInt()}
     />
     )}
 
@@ -103,8 +111,7 @@ export default function Appointment(props) {
 
     
     
-    //  { props.interview  ? <Show student={props.interview.student} interviewer={props.interview.interviewer} onEdit={props.onEdit} 
-    // onDelete={props.onDelete}/> : <Empty onAdd={props.onAdd} /> }
+    
 
 
 
