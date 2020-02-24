@@ -45,18 +45,15 @@ function reducer(state, action) {
           let spotCount = 0;
           for (let appointment of appointmentsForDay) {
             let currentAppointment = appointments[appointment]
-            console.log("CURRENT APPOINTMENT", currentAppointment);
             if (!currentAppointment.interview || Object.keys(currentAppointment.interview).length === 0) {
               spotCount++;
             }
-          }
-          console.log("SPOTS", spotCount);          
+          }    
           const day = {
             ...state.days[dayId],
             spots: spotCount
           }
             days[dayId] = day;
-      console.log( "reducer")
       return { ...state, appointments:appointments, days:days}
     }
     default:
