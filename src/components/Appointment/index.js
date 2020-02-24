@@ -26,7 +26,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
     )
     function save(name, interviewer) {
-      if(name && interviewer){
+      if(interviewer){
       transition(SAVING)
       const interview = {
         student: name,
