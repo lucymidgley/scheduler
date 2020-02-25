@@ -111,20 +111,13 @@ useEffect(() => {
 }, []);
 
 function bookInterview(id, interview) {
- return axios({
-    method: 'put',
-    url: `/api/appointments/${id} `,
-    data: {
-      interview
-    }
-  }).then(() => setInterview(interview, id))
+ return axios.put(`/api/appointments/${id} `, {interview})
+  .then(() => setInterview(interview, id))
 }
 
 function cancelInterview(id, interview = null) {
-  return axios({
-    method: 'delete',
-    url: `/api/appointments/${id} `,
-  }).then(() => setInterview(interview, id))
+  return axios.delete(`/api/appointments/${id} `, {interview})
+  .then(() => setInterview(interview, id))
 }
  return { state, setDay, bookInterview, cancelInterview }
 }
