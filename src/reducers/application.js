@@ -12,8 +12,8 @@ export function getDayId(state, id) {
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case SET_DAY:
-      return { ...state, ...action.value  }
+    // case SET_DAY:
+    //   return { ...state, ...action.value  }
     case SET_APPLICATION_DATA:
       return { ...state, ...action.value }
     case SET_INTERVIEW: {
