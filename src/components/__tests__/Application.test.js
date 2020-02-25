@@ -116,7 +116,7 @@ describe("Application", () => {
       await waitForElementToBeRemoved(() => getByText(appointment, "Saving"));
       expect(getByText(appointment, "Could not save appointment.")).toBeInTheDocument();
       fireEvent.click(getByAltText(appointment, "Close"))
-      expect(getByAltText(appointment, "Add")).toBeInTheDocument();
+      expect(getByPlaceholderText(appointment, /enter student name/i)).toBeInTheDocument();
 
   });
 

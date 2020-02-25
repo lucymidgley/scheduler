@@ -27,7 +27,7 @@ export default function Appointment(props) {
     )
     function save(name, interviewer) {
       if(interviewer){
-      transition(SAVING, true)
+      transition(SAVING)
       const interview = {
         student: name,
         interviewer
@@ -62,7 +62,7 @@ export default function Appointment(props) {
     student={props.interview.student}
     interviewer={props.interview.interviewer}
     onEdit={() => transition(EDIT)} 
-    onDelete={() => transition(CONFIRM)}
+    onDelete={() => transition(CONFIRM, true)}
     />
     )}
     {mode === CREATE && (
