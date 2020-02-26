@@ -9,15 +9,6 @@ import Application from "components/Application";
 afterEach(cleanup);
 
 describe("Application", () => {
-  // it("changes the schedule when a new day is selected", () => {
-  //   const { getByText } = render(<Application />);
-
-  //   return waitForElement(() => getByText("Monday")).then(() => {
-  //     fireEvent.click(getByText("Tuesday"));
-
-  //     expect(getByText("Leopold Silvers")).toBeInTheDocument();
-  //   });
-  // });
 
   it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
@@ -73,7 +64,7 @@ describe("Application", () => {
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
     // 5. Check that the element deleting is displayed.
     // 6. Wait until deleting has dissapeared and empty is showing again.
-    // 7. Check that the DayListItem with the text Monday also has the text "1 spot remaining"
+    // 7. Check that the DayListItem with the text Monday also has the text "2 spots remaining"
   });
 
   it("loads data, edits an interview and the spots remain the same", async () => {
@@ -85,18 +76,22 @@ describe("Application", () => {
     const appointment = getAllByTestId(container, "appointment").find(
       appointment => queryByText(appointment, "Archie Cohen")
     );
+    // 3. Click the "Edit" button for Archie Cohen.
     fireEvent.click(getByAltText(appointment, "Edit"));
     fireEvent.change(getByPlaceholderText(appointment,  /enter student name/i), {
       target: { value: "Lydia Miller-Jones" }
     });
+    // 4. Click on the interviewer Sylvia Palmer
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     fireEvent.click(getByText(appointment, "Save"))
+    // 5. Save the new appointment
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
     await waitForElementToBeRemoved(() => getByText(appointment, "Saving"));
     expect(getByText(appointment, "Lydia Miller-Jones")).toBeInTheDocument();
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
     );
+    // 6. Check the spots have not been updated
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
@@ -110,6 +105,8 @@ describe("Application", () => {
       fireEvent.change(getByPlaceholderText(appointment,  /enter student name/i), {
         target: { value: "Lydia Miller-Jones" }
       });
+      // follow same steps as with previous save function but using mockRejectedValueOnce
+      // check that error message displays
       fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
       fireEvent.click(getByText(appointment, "Save"))
       expect(getByText(appointment, "Saving")).toBeInTheDocument();
@@ -130,7 +127,8 @@ describe("Application", () => {
       fireEvent.click(getByAltText(appointment, "Delete"));
       expect(getByText(appointment, "Delete the appointment?")).toBeInTheDocument();
       fireEvent.click(getByText(appointment, "Confirm"));
-      // 4. Click the confirm buttom.
+      // follow same steps as with previous delete function but using mockRejectedValueOnce
+      // check that error message displays
       expect(getByText(appointment, "Deleting")).toBeInTheDocument();
       await waitForElementToBeRemoved(() => getByText(appointment, "Deleting"));
       expect(getByText(appointment, "Could not delete appointment.")).toBeInTheDocument();

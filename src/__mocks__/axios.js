@@ -1,4 +1,4 @@
-const fixtures = {
+const fixtures = { //test data 
   days: [
     {
       id: 1,

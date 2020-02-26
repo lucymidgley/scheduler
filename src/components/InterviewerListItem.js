@@ -21,4 +21,3 @@ export default function DayListItem(props) {
 }
 
 
-// only show name if selected!!
