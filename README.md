@@ -8,9 +8,9 @@ Test: Node, Storybook, Cypress
 ## Final Product
 
 !["Initial View"](https://github.com/lucymidgley/scheduler/blob/master/public/images/open.png?raw=true)
-!["Create appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/new.png?raw=true)
-!["save appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/show.png?raw=true)
-!["Show"]https://github.com/lucymidgley/scheduler/blob/master/public/images/saved.png?raw=true)
+!["Create appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/show.png?raw=true)
+!["save appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/new.png?raw=true)
+!["Show appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/saved.png?raw=true)
 !["Delete "](https://github.com/lucymidgley/scheduler/blob/master/public/images/delete.png?raw=true)
 !["Several appointments"](https://github.com/lucymidgley/scheduler/blob/master/public/images/lots.png?raw=true)
 
