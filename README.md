@@ -15,8 +15,8 @@ Test: Node, Storybook, Cypress
 !["Several appointments"](https://github.com/lucymidgley/scheduler/blob/master/public/images/lots.png?raw=true)
 
 
-## Deploy of Interview Scheduler using netlify and heroku:
-!["External site"](https://interview-scheduler-lm.netlify.com/)
+## Deployed version Interview Scheduler using netlify and heroku:
+[Interview Scheduler](https://interview-scheduler-lm.netlify.com/)
 
 ## Dependencies
 
