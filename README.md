@@ -4,25 +4,27 @@ An Interview Scheduler App that allows users to add, edit and delete interview a
 Front-end: HTML, CSS, React
 Back-end: Node, Express, SQL
 Test: Node, Storybook, Cypress
+
 ## Final Product
 
-!["Initial View"](https://github.com/lucymidgley/tweeter/blob/master/public/docs/initial.png?raw=true)
-!["Create Tweet "](https://github.com/lucymidgley/tweeter/blob/master/public/docs/write-a-tweet.png?raw=true)
-!["Scrolling "](https://github.com/lucymidgley/tweeter/blob/master/public/docs/scrolling.png?raw=true)
-!["Error "](https://github.com/lucymidgley/tweeter/blob/master/public/docs/error-msg.png?raw=true)
-!["Smaller screen size "](https://github.com/lucymidgley/tweeter/blob/master/public/docs/initial-smaller.png?raw=true)
-!["Create Tweet smaller "](https://github.com/lucymidgley/tweeter/blob/master/public/docs/smaller-screen-scrolling.png?raw=true)
+!["Initial View"](https://github.com/lucymidgley/scheduler/blob/master/public/images/open.png?raw=true)
+!["Create appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/new.png?raw=true)
+!["save appointment"](https://github.com/lucymidgley/scheduler/blob/master/public/images/show.png?raw=true)
+!["Show"]https://github.com/lucymidgley/scheduler/blob/master/public/images/saved.png?raw=true)
+!["Delete "](https://github.com/lucymidgley/scheduler/blob/master/public/images/delete.png?raw=true)
+!["Several appointments"](https://github.com/lucymidgley/scheduler/blob/master/public/images/lots.png?raw=true)
 
 
 
 
 ## Dependencies
 
-- Express
-- Node 5.10.x or above
-- chance
-- body-parser
-
+- Axios
+- Classnames
+- Normalize.css
+- React
+- React-dom
+- React-scripts
 
 ## Getting Started
 
